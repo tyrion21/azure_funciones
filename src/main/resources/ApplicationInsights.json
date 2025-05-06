@@ -1,0 +1,23 @@
+{
+  "instrumentationSettings": {
+    "connectionString": "${APPLICATIONINSIGHTS_CONNECTION_STRING}"
+  },
+  "logging": {
+    "consoleEnabled": true,
+    "level": "TRACE"
+  },
+  "sampling": {
+    "percentage": 100
+  },
+  "selfDiagnostics": {
+    "destination": "FILE",
+    "level": "VERBOSE",
+    "filePathPrefix": "/tmp/applicationinsights"
+  },
+  "heartbeat": {
+    "intervalSeconds": 60
+  },
+  "preview": {
+    "roleName": "${APPLICATIONINSIGHTS_ROLE_NAME}"
+  }
+}

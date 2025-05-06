@@ -32,6 +32,17 @@
         </dependency>
 
         <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-messaging-eventgrid</artifactId>
+            <version>4.21.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.azure</groupId>
+            <artifactId>azure-identity</artifactId>
+            <version>1.14.2</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>2.23.4</version>
@@ -81,6 +92,18 @@
             <artifactId>graphql-java-extended-scalars</artifactId>
             <version>20.0</version>
         </dependency>
+        
+        <!-- Application Insights dependencies -->
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-core</artifactId>
+            <version>2.6.4</version>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.azure</groupId>
+            <artifactId>applicationinsights-logging-logback</artifactId>
+            <version>2.6.4</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -117,13 +140,34 @@
                     <!-- <disableAppInsights></disableAppInsights> -->
                     <runtime>
                         <!-- runtime os, could be windows, linux or docker-->
-                        <os>windows</os>
+                        <os>linux</os>
                         <javaVersion>17</javaVersion>
                     </runtime>
                     <appSettings>
                         <property>
                             <name>FUNCTIONS_EXTENSION_VERSION</name>
                             <value>~4</value>
+                        </property>
+                        <property>
+                            <name>APPLICATIONINSIGHTS_ROLE_NAME</name>
+                            <value>${functionAppName}</value>
+                        </property>
+                        <property>
+                            <name>APPINSIGHTS_INSTRUMENTATIONKEY</name>
+                            <value>${APPINSIGHTS_INSTRUMENTATIONKEY}</value>
+                        </property>
+                        <property>
+                            <name>APPLICATIONINSIGHTS_CONNECTION_STRING</name>
+                            <value>${APPLICATIONINSIGHTS_CONNECTION_STRING}</value>
+                        </property>
+                        <!-- Enable Function App logs to Application Insights -->
+                        <property>
+                            <name>WEBSITE_LOAD_USER_PROFILE</name>
+                            <value>1</value>
+                        </property>
+                        <property>
+                            <name>FUNCTIONS_WORKER_RUNTIME</name>
+                            <value>java</value>
                         </property>
                     </appSettings>
                 </configuration>

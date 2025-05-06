@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <!-- Configure Application Insights for log streaming -->
+  <appender name="AIAPPENDER" class="com.microsoft.applicationinsights.logback.ApplicationInsightsAppender">
+    <!-- The ApplicationInsights configuration will be automatically detected -->
+  </appender>
+
+  <!-- Configure Console logging -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- Set the root logger level and attach appenders -->
+  <root level="INFO">
+    <appender-ref ref="AIAPPENDER" />
+    <appender-ref ref="CONSOLE" />
+  </root>
+
+  <!-- Set specific logger levels -->
+  <logger name="com.function" level="INFO" />
+  <logger name="com.microsoft.azure.functions" level="INFO" />
+</configuration>
