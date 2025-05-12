@@ -1,36 +1,56 @@
 package com.function.model;
 
-import java.util.Set;
-import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
-public class User implements Serializable {
-    private Long id;
+public class User {
+    private String id;
     private String username;
     private String email;
-    private String fullName;
-    private String password;
-    private boolean active;
-    private Set<Role> roles;
+    private String firstName;
+    private String lastName;
+    private boolean isActive;
+    private List<Role> roles;
 
-    // Default constructor required for JSON serialization/deserialization
+    // Constructores
     public User() {
+        this.id = UUID.randomUUID().toString();
+        this.isActive = true;
+        this.roles = new ArrayList<>();
     }
 
-    public User(Long id, String username, String email, String fullName, String password, boolean active) {
-        this.id = id;
+    public User(String username, String email, String firstName, String lastName) {
+        this();
         this.username = username;
         this.email = email;
-        this.fullName = fullName;
-        this.password = password;
-        this.active = active;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    // Getters and Setters
-    public Long getId() {
+    // Métodos para gestión de roles
+    public void addRole(Role role) {
+        if (role != null && !hasRole(role.getId())) {
+            this.roles.add(role);
+        }
+    }
+
+    public void removeRole(Role role) {
+        if (role != null) {
+            this.roles.removeIf(r -> r.getId().equals(role.getId()));
+        }
+    }
+
+    public boolean hasRole(String roleId) {
+        return this.roles.stream().anyMatch(r -> r.getId().equals(roleId));
+    }
+
+    // Getters y setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -50,35 +70,48 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getPassword() {
-        return password;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public boolean isActive() {
-        return active;
+        return isActive;
     }
 
     public void setActive(boolean active) {
-        this.active = active;
+        isActive = active;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", isActive=" + isActive +
+                ", roles=" + roles +
+                '}';
     }
 }

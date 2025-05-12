@@ -58,6 +58,35 @@ public class RoleRepository {
         return Optional.empty();
     }
 
+    /**
+     * Busca un rol por su nombre
+     */
+    public Optional<Role> findByName(String name) throws SQLException {
+        String sql = "SELECT * FROM ROLES WHERE NAME = ?";
+        
+        try (Connection conn = OracleDBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, name);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    Role role = new Role();
+                    role.setId(String.valueOf(rs.getLong("ID")));
+                    role.setName(rs.getString("NAME"));
+                    role.setDescription(rs.getString("DESCRIPTION"));
+                    role.setActive(rs.getBoolean("ACTIVE"));
+                    return Optional.of(role);
+                }
+            }
+        } catch (SQLException e) {
+            logger.severe("Error al buscar rol por nombre: " + e.getMessage());
+            throw e;
+        }
+        
+        return Optional.empty();
+    }
+
     public Role save(Role role) throws SQLException {
         if (role.getId() == null) {
             return insert(role);
@@ -76,7 +105,7 @@ public class RoleRepository {
             stmt.registerOutParameter(3, java.sql.Types.NUMERIC);
 
             stmt.executeUpdate();
-            role.setId(stmt.getLong(3));
+            role.setId(String.valueOf(stmt.getLong(3)));
 
             return role;
         } catch (SQLException e) {
@@ -93,7 +122,7 @@ public class RoleRepository {
 
             stmt.setString(1, role.getName());
             stmt.setString(2, role.getDescription());
-            stmt.setLong(3, role.getId());
+            stmt.setLong(3, Long.parseLong(role.getId()));
 
             int rowsAffected = stmt.executeUpdate();
             if (rowsAffected == 0) {
@@ -177,7 +206,7 @@ public class RoleRepository {
 
     private Role mapRole(ResultSet rs) throws SQLException {
         Role role = new Role();
-        role.setId(rs.getLong("ID"));
+        role.setId(String.valueOf(rs.getLong("ID")));
         role.setName(rs.getString("NAME"));
         role.setDescription(rs.getString("DESCRIPTION"));
         return role;

@@ -1,28 +1,31 @@
 package com.function.model;
 
-import java.io.Serializable;
+import java.util.UUID;
 
-public class Role implements Serializable {
-    private Long id;
+public class Role {
+    private String id;
     private String name;
     private String description;
+    private boolean isActive;
 
-    // Default constructor required for JSON serialization/deserialization
+    // Constructores
     public Role() {
+        this.id = UUID.randomUUID().toString();
+        this.isActive = true;
     }
 
-    public Role(Long id, String name, String description) {
-        this.id = id;
+    public Role(String name, String description) {
+        this();
         this.name = name;
         this.description = description;
     }
 
-    // Getters and Setters
-    public Long getId() {
+    // Getters y setters
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,5 +43,23 @@ public class Role implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isActive=" + isActive +
+                '}';
     }
 }

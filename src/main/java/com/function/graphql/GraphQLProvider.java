@@ -47,7 +47,8 @@ public class GraphQLProvider {
                     id: ID!
                     username: String!
                     email: String!
-                    fullName: String!
+                    firstName: String!
+                    lastName: String!
                     active: Boolean!
                     roles: [Role]
                 }
@@ -67,8 +68,8 @@ public class GraphQLProvider {
                 }
                 
                 type Mutation {
-                    createUser(username: String!, email: String!, fullName: String!, password: String!, active: Boolean!): User
-                    updateUser(id: ID!, username: String!, email: String!, fullName: String!, password: String!, active: Boolean!): User
+                    createUser(username: String!, email: String!, firstName: String!, lastName: String!, active: Boolean!): User
+                    updateUser(id: ID!, username: String!, email: String!, firstName: String!, lastName: String!, active: Boolean!): User
                     deleteUser(id: ID!): Boolean
                     createRole(name: String!, description: String): Role
                     updateRole(id: ID!, name: String!, description: String): Role
@@ -166,15 +167,15 @@ public class GraphQLProvider {
             try {
                 String username = environment.getArgument("username");
                 String email = environment.getArgument("email");
-                String fullName = environment.getArgument("fullName");
-                String password = environment.getArgument("password");
+                String firstName = environment.getArgument("firstName");
+                String lastName = environment.getArgument("lastName");
                 boolean active = environment.getArgument("active");
 
                 User user = new User();
                 user.setUsername(username);
                 user.setEmail(email);
-                user.setFullName(fullName);
-                user.setPassword(password); // In production, hash the password
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
                 user.setActive(active);
                 
                 return userRepository.save(user);
@@ -191,16 +192,16 @@ public class GraphQLProvider {
                 String id = environment.getArgument("id");
                 String username = environment.getArgument("username");
                 String email = environment.getArgument("email");
-                String fullName = environment.getArgument("fullName");
-                String password = environment.getArgument("password");
+                String firstName = environment.getArgument("firstName");
+                String lastName = environment.getArgument("lastName");
                 boolean active = environment.getArgument("active");
 
                 User user = new User();
-                user.setId(Long.parseLong(id));
+                user.setId(id);
                 user.setUsername(username);
                 user.setEmail(email);
-                user.setFullName(fullName);
-                user.setPassword(password);
+                user.setFirstName(firstName);
+                user.setLastName(lastName);
                 user.setActive(active);
                 
                 return userRepository.save(user);
@@ -249,7 +250,7 @@ public class GraphQLProvider {
                 String description = environment.getArgument("description");
 
                 Role role = new Role();
-                role.setId(Long.parseLong(id));
+                role.setId(id);
                 role.setName(name);
                 role.setDescription(description);
                 

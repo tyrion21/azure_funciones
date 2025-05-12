@@ -133,7 +133,7 @@ public class RoleFunction {
         try {
             Long roleId = Long.parseLong(id);
             Role roleToUpdate = gson.fromJson(requestBody, Role.class);
-            roleToUpdate.setId(roleId);
+            roleToUpdate.setId(String.valueOf(roleId));
 
             // Check if role exists
             if (!roleRepository.findById(roleId).isPresent()) {

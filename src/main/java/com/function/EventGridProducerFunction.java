@@ -84,7 +84,7 @@ public class EventGridProducerFunction {
             logger.info("Evento de usuario creado publicado con éxito en Event Grid");
 
             return request.createResponseBuilder(HttpStatus.CREATED)
-                    .body("Usuario creado y evento publicado con éxito")
+                    .body("Usuario creado, rol asignado y evento publicado con éxito")
                     .build();
         } catch (Exception e) {
             logger.severe("Error al crear usuario o publicar evento: " + e.getMessage());

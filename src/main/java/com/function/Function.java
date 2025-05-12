@@ -5,9 +5,9 @@ import com.microsoft.azure.functions.*;
 import java.util.Optional;  
 
 public class Function {
-    @FunctionName("testOracleConnection")
+    @FunctionName("testBasicOracleConnection")
     public HttpResponseMessage run(
-        @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS) HttpRequestMessage<Optional<String>> request,
+        @HttpTrigger(name = "req", methods = {HttpMethod.GET}, authLevel = AuthorizationLevel.ANONYMOUS, route = "test-basic-connection") HttpRequestMessage<Optional<String>> request,
         final ExecutionContext context) {
         
         context.getLogger().info("Ejecutando la función de prueba de conexión a Oracle");
